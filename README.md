@@ -34,8 +34,13 @@ We have repackaged the data from a newer compilation put together by the Berkele
 
 In this dataset, we have include several files:
 
-* Global Land and Ocean-and-Land Temperatures (GlobalTemperatures.csv):
+* Global Land and Ocean-and-Land Temperatures (GlobalTemperatures.csv)
+* Global Average Land Temperature by Country (GlobalLandTemperaturesByCountry.csv)
+* Global Average Land Temperature by State (GlobalLandTemperaturesByState.csv)
+* Global Land Temperatures By Major City (GlobalLandTemperaturesByMajorCity.csv)
+* Global Land Temperatures By City (GlobalLandTemperaturesByCity.csv)
   
+The Dataset contain several attributes/fields,such as:
   - Date: starts in 1750 for average land temperature and 1850 for max and min land temperatures and global ocean and land temperatures
   - LandAverageTemperature: global average land temperature in celsius
   - LandAverageTemperatureUncertainty: the 95% confidence interval around the average
@@ -45,8 +50,8 @@ In this dataset, we have include several files:
   - LandMinTemperatureUncertainty: the 95% confidence interval around the minimum land temperature
   - LandAndOceanAverageTemperature: global average land and ocean temperature in celsius
   - LandAndOceanAverageTemperatureUncertainty: the 95% confidence interval around the global average land and ocean temperature
-
-
+  
+  
 The raw data comes from the Berkeley Earth data page.</p>
 <p> Dataset Link: <a href="https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data"> Berkeley Climate Change Dataset</a></p> 
   
