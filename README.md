@@ -102,14 +102,55 @@ cwd = os.getcwd()
 files = os.listdir(cwd) 
 print("Files in %r: %s" % (cwd, files))
 
-#Read the CSV 
+#Reading the GLOBAL TEMPERATURE BY CITY CSV 
 data = pd.read_csv(f"Datasets\GlobalLandTemperaturesByCity.csv",delimiter=",")
 data
 ```
 
+### Basic Exploration on the Dataset 
 
+This section of code helps us to comprehend the basic understanding of the dataset. We retrieved the dataset in a form of Pandas Data Frame.
 
+```python
+# Gives the Basic Structure of the Data Frame such as Data type and Col names.
+data.info()
 
+# Show the basic Statistical Values of the data such as Mean, Count, StD, Min and Quartiles
+data.describe()
+
+# Shape of the dataset
+data.shape
+
+# Names of the Column 
+data.columns
+
+# First 5 Records in the dataset
+data.head()
+
+# Last 5 Records in the dataset
+data.tail()
+
+# Here we can see the unique values exist in each column
+data.nunique()
+
+# Shows the number of Null values in each column 
+data.isnull().sum()
+```
+
+<em>Note: There exist few Null values.</em>
+<p>
+Many real world datasets contain missing values, often encoded as blanks, NaNs or other placeholders.
+  - A basic strategy to use incomplete datasets is to discard entire rows and/or columns
+  containing missing values or NaN
+  - Another Strategy is to use Imputer Class, it replaces the empty/null values with the mean, median or most frequent
+Since, the dataset is quite large, so we will be dropping the null records
+</p>
+
+```python
+# Dropping all null values
+data = data.dropna(how='any' ,axis=0)
+data.shape
+```
 
 
 
