@@ -137,12 +137,15 @@ data.nunique()
 data.isnull().sum()
 ```
 
-<em>Note: There exist few Null values.</em>
+<u>Note: There exist few Null values.</u>
 <p>
 Many real world datasets contain missing values, often encoded as blanks, NaNs or other placeholders.
-  - A basic strategy to use incomplete datasets is to discard entire rows and/or columns
-  containing missing values or NaN
-  - Another Strategy is to use Imputer Class, it replaces the empty/null values with the mean, median or most frequent
+  
+  * A basic strategy to use incomplete datasets is to discard entire rows and/or columns
+    containing missing values or NaN.
+  * Another Strategy is to use Imputer Class, it replaces the empty/null values with the       mean, median or most frequent
+  
+  
 Since, the dataset is quite large, so we will be dropping the null records
 </p>
 
@@ -152,5 +155,26 @@ data = data.dropna(how='any' ,axis=0)
 data.shape
 ```
 
+### Manipulation in the Data Frame
+
+Since, we are going to perform Time Series Analysis on the Dataset. So, now we will be changing the structure according to our ease and analysis techniques.
+
+Transforming the Dt column to Date column ( Object datatype to Date Type)
+
+```python
+# Converting Dt into Date
+data['Date'] = pd.to_datetime(data['Date'])
+# Setting the Index 
+data.set_index('Date',inplace = True)
+data.index
+```
+
+Now, we will make a new Column namely "Year" 
+
+```python
+# Now we use year as index
+data['Year']= data.index.year
+data.head()
+```
 
 
