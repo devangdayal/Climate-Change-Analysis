@@ -20,6 +20,7 @@
   <img src="https://img.shields.io/badge/Numpy-777BB4?style=for-the-badge&logo=numpy&logoColor=white" /> 
   <img src="https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white" /> 
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="python"/>
+  <img src="https://img.shields.io/badge/conda-342B029.svg?&style=for-the-badge&logo=anaconda&logoColor=white"  />
   <img src="https://img.shields.io/badge/Made%20with-Jupyter-orange?style=for-the-badge&logo=Jupyter" alt="jupyter" />
   <img src="https://img.shields.io/badge/Plotly-239120?style=for-the-badge&logo=plotly&logoColor=white" />
 
@@ -31,14 +32,6 @@
 <p>Given this complexity, there are a range of organizations that collate climate trends data. The three most cited land and ocean temperature data sets are NOAA’s MLOST, NASA’s GISTEMP and the UK’s HadCrut.
 
 We have repackaged the data from a newer compilation put together by the Berkeley Earth, which is affiliated with Lawrence Berkeley National Laboratory. The Berkeley Earth Surface Temperature Study combines 1.6 billion temperature reports from 16 pre-existing archives. It is nicely packaged and allows for slicing into interesting subsets (for example by country). They publish the source data and the code for the transformations they applied. They also use methods that allow weather observations from shorter time series to be included, meaning fewer observations need to be thrown away.
-
-In this dataset, we have include several files:
-
-* Global Land and Ocean-and-Land Temperatures (GlobalTemperatures.csv)
-* Global Average Land Temperature by Country (GlobalLandTemperaturesByCountry.csv)
-* Global Average Land Temperature by State (GlobalLandTemperaturesByState.csv)
-* Global Land Temperatures By Major City (GlobalLandTemperaturesByMajorCity.csv)
-* Global Land Temperatures By City (GlobalLandTemperaturesByCity.csv)
   
 The Dataset contain several attributes/fields,such as:
   - Date: starts in 1750 for average land temperature and 1850 for max and min land temperatures and global ocean and land temperatures
@@ -54,5 +47,69 @@ The Dataset contain several attributes/fields,such as:
   
 The raw data comes from the Berkeley Earth data page.</p>
 <p> Dataset Link: <a href="https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data"> Berkeley Climate Change Dataset</a></p> 
+
+
+The Dataset consist of multiple type of Data:
+
+* Global Land and Ocean-and-Land Temperatures (GlobalTemperatures.csv)
+* Global Average Land Temperature by Country (GlobalLandTemperaturesByCountry.csv)
+* Global Average Land Temperature by State (GlobalLandTemperaturesByState.csv)
+* Global Land Temperatures By Major City (GlobalLandTemperaturesByMajorCity.csv)
+* Global Land Temperatures By City (GlobalLandTemperaturesByCity.csv)
   
-  
+## Installation of Tools and Libraries 
+### Make Sure you have installed Python 3.x + version for this project
+
+### Using PIP 
+
+You would be needing multiple libraries such as Math, Numpy, Pandas and Seabon for basic operations and many pre-processing and ML Model libraries.
+
+```sh
+pip install [Library_Name]
+```
+
+### Using Conda
+
+If you are using Anaconda, then I would recommend you to create an seperate Enviornment for this project. (Not mandatory! Just a Good Practice)
+You can use the command mentioned below to install libraries in your enviornment. (Make sure that the appropriate Environment is activated to avoid Code Errors and redundancy!)
+
+```sh
+conda install [Library_Name]
+```
+
+## Getting Started with the Project
+
+### Importing the required Libraries 
+
+```python
+import pandas as pd
+import numpy as np
+import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sys
+```
+
+### Reading the CSV File from the local machine
+
+The cwd and files command is to see the current directory details. 
+
+```python
+# Reading the dataset 
+# Get the current working directory (cwd)
+cwd = os.getcwd()   
+# Get all the files in that directory
+files = os.listdir(cwd) 
+print("Files in %r: %s" % (cwd, files))
+
+#Read the CSV 
+data = pd.read_csv(f"Datasets\GlobalLandTemperaturesByCity.csv",delimiter=",")
+data
+```
+
+
+
+
+
+
+
