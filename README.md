@@ -177,4 +177,8 @@ data['Year']= data.index.year
 data.head()
 ```
 
+## Interactive Tableau Dashboard 
 
+You can access the Tableau Dashboard to learn more about the pattern and trends in the Dataset in more interactive and fun manner.
+
+https://public.tableau.com/views/ClimateChangeAnalysisDashboardDA2/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link
