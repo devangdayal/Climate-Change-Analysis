@@ -182,3 +182,93 @@ data.head()
 You can access the Tableau Dashboard to learn more about the pattern and trends in the Dataset in more interactive and fun manner.
 
 https://public.tableau.com/views/ClimateChangeAnalysisDashboardDA2/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link
+
+
+## Time Series Analysis of Cities
+
+I am going to perform Time Series Analysis on some Cities. So, Let's take **Delhi** for Case Study.
+
+```python
+delhi = data.loc[data['City'] == ('New Delhi' or "Delhi"), ['Date','AverageTemperature']]
+delhi.columns = ['Date','Temp']
+
+delhi['Date'] = pd.to_datetime(delhi['Date'])
+delhi.reset_index(drop=True, inplace=True)
+delhi.set_index('Date', inplace=True)
+delhi
+``` 
+
+So, here we sliced our required Data from the Dataset.
+- Now, We will see the Temperature Variation of Delhi from 1980-2013
+
+
+```python
+plt.figure(figsize=(22,6))
+sns.lineplot(x=delhi.index, y=delhi['Temp'])
+plt.title('Temperature Variation in Delhi from 1980 until 2013')
+plt.xlabel("Date",fontsize=14)
+plt.ylabel("Temperature in C'",fontsize=14)
+plt.legend()
+plt.savefig(f"./DataViz/Delhi/1980-2013Temp.jpeg") # To Save the Plot as an JPEG Image
+plt.show()
+```
+<div>
+  <img src="/DataViz/Delhi/1980-2013Temp.jpeg" ></img>
+</div>
+
+- For better analysis and getting more insight on trends and pattern of temperature change in the New Delhi
+  We will be creating a SpreadSheet/Pivot Table to map temperature change in each month 
+
+```python
+pivot = pd.pivot_table(delhi, values='Temp', index='Month', columns='Year', aggfunc='mean')
+pivot.plot(figsize=(20,6),colormap="coolwarm")
+plt.title('Yearly Delhi temperatures')
+plt.xlabel('Months')
+plt.ylabel('Temperatures')
+
+plt.xticks([x for x in range(1,13)])
+plt.legend().remove()
+plt.savefig(f"./DataViz/Delhi/TemperatureChangeDelhi.png")
+plt.show()
+```
+<div>
+  <img src="/DataViz/Delhi/TemperatureChangeDelhi.png" ></img>
+</div>
+
+**It is clearly visible through the plot that their exist a Temperature rise in month of May, June and July and the temperature descent in month of November and December**
+
+``` python
+
+monthly_seasonality = pivot.mean(axis=1)
+monthly_seasonality.plot(figsize=(20,6))
+plt.title('Monthly Temperatures in Delhi')
+plt.xlabel('Months',fontsize=14)
+plt.ylabel('Temperature',fontsize=14)
+plt.xticks([x for x in range(1,13)])
+plt.savefig(f"./DataViz/Delhi/AvgTempChangeMonth.png")
+plt.show()
+```
+<div> <img src="/DataViz/Delhi/AvgTempChangeMonth.png" ></img></div>
+
+- Yearly Average Temperature in Delhi
+
+```python
+
+year_avg = pd.pivot_table(delhi, values='Temp', index='Year', aggfunc='mean')
+# The rolling mean of Temp in last 10 years
+# Rolling mean window is 3
+year_avg['10 Years MA'] = year_avg['Temp'].rolling(3).mean()
+year_avg[['Temp','10 Years MA']].plot(kind="line",
+                                      figsize=(20,6),
+                                      colormap="cool",
+                                      marker='o',)
+
+plt.title('Yearly AVG Temperatures in Delhi')
+plt.xlabel('Years')
+plt.ylabel('Temperature')
+plt.xticks([x for x in range(1980,2012,2)])
+
+plt.savefig(f"./DataViz/Delhi/TempChangeVsRollingMean.png")
+plt.show()
+```
+<div> <img src="/DataViz/Delhi/TempChangeVsRollingMean.png" ></img></div> 
