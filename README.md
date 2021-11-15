@@ -272,3 +272,157 @@ plt.savefig(f"./DataViz/Delhi/TempChangeVsRollingMean.png")
 plt.show()
 ```
 <div> <img src="/DataViz/Delhi/TempChangeVsRollingMean.png" ></img></div> 
+
+## Machine Learning S-ARIMA Model Implementation
+
+Before moving forward, lets first split the dataset into Training, Validation and Testing. Now since its not any random sequence data therfore use of Random value and sample bias doesnt apply here. We can simply split the data using simple slicing and cutting operation on DataFrame
+
+```python
+# Train Size is 200
+df_train = delhi[-300:]
+# Val size is 100
+df_val = delhi[200:300]
+# Test Size is 100
+df_test = delhi[:-200]
+```
+Now, We will perform ADCF Test to check whether the Data is Stationary or Non-Stationary.
+
+>ADCF Test: ADCF stands for Augmented Dickey-Fuller test which is a statistical unit root test. It gives us various values which can help us identifying stationarity.
+It comprises Test Statistics & some critical values for some confidence levels. If the Test statistics is less than the critical values, we can reject the null hypothesis      & say that the series is stationary. 
+The Null hypothesis says that time series is non-stationary. THE ADCF test also gives us a p-value. According to the null hypothesis, lower values of p is better.
+
+```python
+from statsmodels.tsa.stattools import adfuller
+
+print('Augmented Ducky Fuller Test Results')
+
+test_data = adfuller(df_train.iloc[:,0].values,autolag='AIC')
+
+data_output = pd.Series(test_data[0:4],index=['Test Statistic','p-value','Lags Used','Number of Observation Used'])
+
+for key,value in test_data[4].items():
+    
+    data_output['Critical value (%s)'%key] = value
+    
+print(data_output)
+```
+
+>Augmented Ducky Fuller Test Results
+>Test Statistic     :              -3.340807<br>
+>p-value             :              0.013150<br> 
+>Lags Used               :       13.000000<br>
+>Number of Observation Used  :  286.000000<br>
+>Critical value (1%)         :   -3.453423<br>
+>Critical value (5%)          :  -2.871699<br>
+>Critical value (10%)          : -2.572183<br>
+>dtype: float64
+
+
+Now, We will be plotting the result of ADCF Test.
+
+```
+import math
+def check_stationarity(y, lags_plots=48, figsize=(22,8)):
+       
+    # Creating plots of the DF
+    y = pd.Series(y)
+    fig = plt.figure()
+
+    ax1 = plt.subplot2grid((3, 3), (0, 0), colspan=2)
+    ax2 = plt.subplot2grid((3, 3), (1, 0))
+    ax3 = plt.subplot2grid((3, 3), (1, 1))
+    ax4 = plt.subplot2grid((3, 3), (2, 0), colspan=2)
+
+    y.plot(ax=ax1, figsize=figsize)
+   
+    ax1.set_title('Delhi Temperature Variation')
+    plot_acf(y, lags=lags_plots, zero=False, ax=ax2);
+    plot_pacf(y, lags=lags_plots, zero=False, ax=ax3);
+    sns.distplot(y, bins=int(sqrt(len(y))), ax=ax4)
+    ax4.set_title('Distribution Chart')
+
+    plt.tight_layout()
+    
+    plt.savefig(f"./DataViz/Delhi/AdfullerTest.png")
+    
+    print('Results of Dickey-Fuller Test:')
+    adfinput = adfuller(y)
+    adftest = pd.Series(adfinput[0:4], index=['Test Statistic','p-value','Lags Used','Number of Observations Used'])
+    adftest = round(adftest,4)
+    
+    for key, value in adfinput[4].items():
+        adftest["Critical Value (%s)"%key] = value.round(4)
+        
+    print(adftest)
+    
+    if adftest[0].round(2) < adftest[5].round(2):
+        print('\nThe Test Statistics is lower than the Critical Value of 5%.\nThe serie seems to be stationary')
+    else:
+        print("\nThe Test Statistics is higher than the Critical Value of 5%.\nThe serie isn't stationary")
+        
+# The first approach is to check the series without any transformation
+check_stationarity(df_train["Temp"])
+
+```
+
+<div> <img src="/DataViz/Delhi/AdfullerTest.png" ></img></div>
+
+```python
+#Now we break the data into sub section
+from statsmodels.tsa.seasonal import seasonal_decompose
+
+decomp= seasonal_decompose(df_train["Temp"],period=3)
+trend = decomp.trend
+seasonal = decomp.seasonal
+residual = decomp.resid
+
+plt.subplot(411)
+plt.figure(figsize=(20,8))
+plt.plot(df_train["Temp"],'r-')
+plt.xlabel('Original')
+plt.figure(figsize=(20,8))
+
+plt.subplot(412)
+plt.plot(trend,'k-')
+plt.xlabel('Trend')
+plt.figure(figsize=(20,8))
+
+plt.subplot(413)
+plt.plot(seasonal,'g-')
+plt.xlabel('Seasonal')
+plt.figure(figsize=(20,8))
+
+plt.subplot(414)
+plt.plot(residual,'y-')
+plt.xlabel('Residual')
+plt.figure(figsize=(20,8))
+
+plt.tight_layout()
+```
+
+<div>
+ <img src="/DataViz/Delhi/Original.png" ></img>
+ <img src="/DataViz/Delhi/Residual.png" ></img>
+ <img src="/DataViz/Delhi/Sesasonal.png" ></img>
+ <img src="/DataViz/Delhi/Trend.png" ></img>
+</div>
+
+Pandas dataframe.diff() is used to find the first discrete difference of objects over the given axis. We can provide a period value to shift for forming the difference.
+
+```python
+check_stationarity(df_train['Temp'].diff(12).dropna())
+```
+>Results of Dickey-Fuller Test:
+>Test Statistic     :             -6.4568<br>
+>p-value             :             0.0000<br>
+>Lags Used                       12.0000<br>
+>Number of Observations Used   : 275.0000<br>
+>Critical Value (1%)          :   -3.4544<br>
+>Critical Value (5%)           :  -2.8721<br>
+>Critical Value (10%)          :  -2.5724<br>
+>dtype: float64<br>
+
+The Test Statistics is lower than the Critical Value of 5%.
+The serie seems to be stationary
+
+<div><img src="/DataViz/Delhi/Variation.png" ></img></div>
