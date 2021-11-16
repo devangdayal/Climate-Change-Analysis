@@ -273,7 +273,7 @@ plt.show()
 ```
 <div> <img src="/DataViz/Delhi/TempChangeVsRollingMean.png" ></img></div> 
 
-## Machine Learning S-ARIMA Model Implementation
+## Time Series Analysis using Trends and ADCF Testing
 
 Before moving forward, lets first split the dataset into Training, Validation and Testing. Now since its not any random sequence data therfore use of Random value and sample bias doesnt apply here. We can simply split the data using simple slicing and cutting operation on DataFrame
 
