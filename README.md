@@ -403,7 +403,7 @@ plt.tight_layout()
 <div>
  <img src="/DataViz/Delhi/Original.png" ></img>
  <img src="/DataViz/Delhi/Residual.png" ></img>
- <img src="/DataViz/Delhi/Sesasonal.png" ></img>
+ <img src="/DataViz/Delhi/Seasonal.png" ></img>
  <img src="/DataViz/Delhi/Trend.png" ></img>
 </div>
 
