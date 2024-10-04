@@ -70,8 +70,8 @@ pip install [Library_Name]
 
 ### Using Conda
 
-If you are using Anaconda, then I would recommend you to create an seperate Enviornment for this project. (Not mandatory! Just a Good Practice)
-You can use the command mentioned below to install libraries in your enviornment. (Make sure that the appropriate Environment is activated to avoid Code Errors and redundancy!)
+If you are using Anaconda, then I would recommend you to create an seperate Environment for this project. (Not mandatory! Just a Good Practice)
+You can use the command mentioned below to install libraries in your environment. (Make sure that the appropriate Environment is activated to avoid Code Errors and redundancy!)
 
 ```sh
 conda install [Library_Name]
