@@ -62,7 +62,7 @@ The Dataset consist of multiple type of Data:
 
 ### Using PIP 
 
-You would be needing multiple libraries such as Math, Numpy, Pandas and Seabon for basic operations and many pre-processing and ML Model libraries.
+You would be needing multiple libraries such as Math, Numpy, Pandas and Seaborn for basic operations and many pre-processing and ML Model libraries.
 
 ```sh
 pip install [Library_Name]
